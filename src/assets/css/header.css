@@ -1,0 +1,17 @@
+.navbar {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-right: 10px !important;
+}
+
+.navbar-brand img {
+    height: 40px;
+    margin: 10px 5px 5px 5px !important;
+}
+
+.__profilePic {
+    height: 30px;
+    width: 30px;
+    margin: 0 1em;
+    border-radius: 30px;
+}

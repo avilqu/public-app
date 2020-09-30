@@ -1,0 +1,28 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+}
+
+.container-fluid {
+    margin-top: 55px;
+}
+
+#__main-row {
+    height: 100%;
+}
+
+main {
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+.__link {
+    color: #00bc8c;
+    cursor: pointer;
+}

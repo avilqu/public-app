@@ -1,0 +1,5 @@
+.directory
+api
+node_modules
+package-lock.json
+dist

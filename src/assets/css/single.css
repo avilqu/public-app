@@ -1,0 +1,11 @@
+.__secondary {
+    font-size: 0.8em;
+    color: #777;
+}
+
+.__profilePicLarge {
+    height: 50px;
+    width: 50px;
+    margin-right: 0.2em;
+    border-radius: 50px;
+}

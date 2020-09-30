@@ -1,0 +1,30 @@
+table tr td p {
+    margin-bottom: 0;
+}
+
+.__tableDanger td,
+.__tableWarning td,
+.__tableSuccess td,
+.__tableInfo td {
+    color: white;
+}
+
+.__tableInfo td a:hover {
+    color: white;
+}
+
+.__tableDanger {
+    background-color: #881d11;
+}
+
+.__tableWarning {
+    background-color: #916f08;
+}
+
+.__tableSuccess {
+    background-color: #009973;
+}
+
+.__tableInfo {
+    background-color: #006699;
+}

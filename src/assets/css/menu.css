@@ -1,0 +1,30 @@
+.sidebar {
+    padding-top: 20px;
+    border-right: 1px solid #303030;
+}
+
+.__menu-separator {
+    color: #e74c3c;
+    text-transform: uppercase;
+    margin-top: 20px;
+    margin-bottom: 0;
+    padding-top: 15px;
+    border-top: 1px solid #71180e;
+}
+
+.nav-item {
+    margin-top: 10px;
+}
+
+.fas {
+    width: 25px;
+}
+
+.sidebar a {
+    color: white;
+}
+
+.sidebar a:hover {
+    text-decoration: none;
+    color: #e74c3c;
+}
