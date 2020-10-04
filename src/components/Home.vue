@@ -9,16 +9,11 @@
 import { auth } from './../services/auth.js';
 export default {
     props: {
-        user: {},
-        auth: Boolean,
-        verify: Boolean
+        user: {}
     },
-    async created() {
-        // if (this.$route.path == '/auth') auth.auth();
-        if (this.auth) auth.auth();
-        if (this.verify) {
-            auth.verify(this.$route.params.id, this.$route.params.token);
-        }
+
+    created() {
+        if (!this.user) this.$router.push('/login');
     }
 };
 </script>

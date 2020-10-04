@@ -1,12 +1,16 @@
 <template>
     <div class="container-fluid">
-        <div class="row" id="__main-row">
+        <div class="row" v-if="user" id="__main-row">
             <app-header :user="user"></app-header>
-            <app-menu v-if="user" :user="user"></app-menu>
+            <app-menu :user="user"></app-menu>
             <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <app-alerts></app-alerts>
                 <router-view :user="user"></router-view>
             </main>
+        </div>
+        <div v-else>
+            <app-alerts></app-alerts>
+            <router-view :user="user"></router-view>
         </div>
     </div>
 </template>
@@ -30,7 +34,6 @@ export default {
     components: {
         'app-header': Header,
         'app-alerts': Alerts,
-        // 'app-login': Login,
         'app-menu': Menu
         // 'app-user-password': UserPassword
     },
