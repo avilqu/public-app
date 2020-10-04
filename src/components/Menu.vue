@@ -1,7 +1,7 @@
 <template>
     <nav class="col-md-2 d-md-block sidebar">
         <div class="sidebar-sticky">
-            <ul v-if="user.role > 3" class="nav flex-column">
+            <ul class="nav flex-column">
                 <p class="__menu-separator">App settings</p>
                 <router-link tag="a" :to="'/user/list'" class="nav-item">
                     <i class="fas fa-user"></i>

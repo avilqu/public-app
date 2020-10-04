@@ -39,8 +39,11 @@ export default {
 
     created() {
         this.user = auth.getUser();
-        if (!this.user && this.$route.path != '/login') {
-            console.log('redirecting...');
+        if (
+            !this.user &&
+            !this.$route.params.id &&
+            this.$route.path != '/login'
+        ) {
             this.$router.push('/login');
         }
         eventBus.$on('login', () => {

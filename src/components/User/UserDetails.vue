@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { userClient } from '@/services/userClient.js';
+import { apiClient } from '@/services/apiClient.js';
 import { auth } from '@/services/auth.js';
 
 export default {
@@ -97,25 +97,25 @@ export default {
     },
     methods: {
         async requestResetToken() {
-            await userClient.requestResetToken({
+            await auth.requestResetToken({
                 email: this.selectedUser.email
             });
         },
         async updateUser() {
-            await userClient.updateUser(this.selectedUser);
+            await apiClient.updateUser(this.selectedUser);
             if (this.user._id === this.selectedUser._id) {
                 auth.updateUser(this.selectedUser);
             }
         },
         async deleteUser() {
-            if (await userClient.deleteUser(this.selectedUser)) {
+            if (await apiClient.deleteUser(this.selectedUser)) {
                 this.selectedUser = {};
             }
         }
     },
     async created() {
         if (this.$route.params.id) {
-            this.selectedUser = await userClient.getUser(this.$route.params.id);
+            this.selectedUser = await apiClient.getUser(this.$route.params.id);
         }
         // else if (this.$route.params.selectedUser)
         //     this.selectedUser = this.$route.params.selectedUser;

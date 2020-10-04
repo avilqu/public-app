@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { userClient } from './../../services/userClient.js';
+import { auth } from '@/services/auth.js';
 
 export default {
     data: function() {
@@ -58,14 +58,14 @@ export default {
     methods: {
         async updatePassword() {
             if (
-                await userClient.updatePassword(
+                await auth.updatePassword(
                     this.$route.params.id,
                     this.$route.params.token,
                     this.password,
                     this.confirmation
                 )
             ) {
-                this.$router.push('/');
+                this.$router.push('/login');
             }
         }
     }

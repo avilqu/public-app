@@ -205,7 +205,7 @@
 
 <script>
 import { auth } from '@/services/auth.js';
-import { userClient } from '@/services/userClient.js';
+import { apiClient } from '@/services/apiClient.js';
 
 export default {
     data: function() {
@@ -229,7 +229,7 @@ export default {
         },
 
         async createUser() {
-            await userClient.createUser(this.newUser);
+            await auth.createUser(this.newUser);
         },
 
         async googleLogin() {
@@ -241,7 +241,7 @@ export default {
         },
 
         async requestResetToken() {
-            await userClient.requestResetToken({
+            await auth.requestResetToken({
                 email: this.emailReset
             });
         }
@@ -254,7 +254,7 @@ export default {
         }
 
         if (this.verify) {
-            auth.verify(this.$route.params.id, this.$route.params.token);
+            await auth.verify(this.$route.params.id, this.$route.params.token);
         }
     }
 };

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { userClient } from '@/services/userClient.js';
+import { apiClient } from '@/services/apiClient.js';
 
 export default {
     data: function() {
@@ -87,7 +87,7 @@ export default {
         }
     },
     async created() {
-        this.users = await userClient.getUserList();
+        this.users = await apiClient.getUserList();
         this.filterList();
     }
 };
