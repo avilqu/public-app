@@ -1,6 +1,6 @@
 <template>
     <div class="col-sm-12">
-        <div class="card w-50 text-center">
+        <div class="__auth-card card text-center">
             <div class="card-header">
                 <ul
                     class="nav nav-tabs nav-justified md-tabs indigo"
@@ -45,75 +45,75 @@
                             <h5 class="card-title mb-3">
                                 <strong>Login</strong>
                             </h5>
-                            <label for="inputEmail" class="sr-only"
-                                >Email address</label
-                            >
-                            <input
-                                type="email"
-                                id="inputEmail"
-                                class="form-control bg-dark text-light mb-2"
-                                placeholder="Email address"
-                                required
-                                autofocus
-                                v-model="credentials.email"
-                            />
-                            <label for="inputPassword" class="sr-only"
-                                >Password</label
-                            >
-                            <input
-                                type="password"
-                                id="inputPassword"
-                                class="form-control bg-dark text-light"
-                                placeholder="Password"
-                                required
-                                v-model="credentials.password"
-                            />
-                            <p
-                                class="mt-2 mb-2 text-muted text-right small"
-                                @click="
-                                    showResetForm = true;
-                                    title = 'Reset your password';
-                                "
-                            >
-                                Forgot your password?
-                            </p>
-                            <br />
-                            <button
-                                class="btn btn-outline-success btn-block"
-                                @click.prevent="login()"
-                            >
-                                Sign in
-                            </button>
-                            <!-- <p
-                                class="mt-3 mb-3 text-muted"
-                                @click="showResetForm = true"
-                            >
-                                Or create an account
-                            </p> -->
+                            <form>
+                                <label for="inputEmail" class="sr-only"
+                                    >Email address</label
+                                >
+                                <input
+                                    type="email"
+                                    id="inputEmail"
+                                    class="form-control bg-dark text-light mb-2"
+                                    placeholder="Email address"
+                                    required
+                                    autofocus
+                                    v-model="credentials.email"
+                                />
+                                <label for="inputPassword" class="sr-only"
+                                    >Password</label
+                                >
+                                <input
+                                    type="password"
+                                    id="inputPassword"
+                                    class="form-control bg-dark text-light"
+                                    placeholder="Password"
+                                    required
+                                    v-model="credentials.password"
+                                />
+                                <p
+                                    class="mt-2 mb-2 text-muted text-right small"
+                                    @click="
+                                        showResetForm = true;
+                                        title = 'Reset your password';
+                                    "
+                                >
+                                    Forgot your password?
+                                </p>
+                                <br />
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-success btn-block"
+                                    @click.prevent="login()"
+                                >
+                                    Sign in
+                                </button>
+                            </form>
                         </div>
                         <div v-else>
                             <h5 class="card-title mb-3">
                                 <strong>Reset your password</strong>
                             </h5>
                             <p class="mb-3 text-center text-muted">
-                                Enter your email below. We'll send you a secure
-                                link to reset your password.
+                                You will receive a secure link to reset your
+                                password.
                             </p>
-                            <input
-                                type="email"
-                                id="emailReset"
-                                class="form-control bg-dark text-light mb-3"
-                                placeholder="Email address"
-                                required
-                                autofocus
-                                v-model="emailReset"
-                            />
-                            <button
-                                class="btn btn-outline-success btn-block"
-                                @click.prevent="requestResetToken()"
-                            >
-                                Send
-                            </button>
+                            <form>
+                                <input
+                                    type="email"
+                                    id="emailReset"
+                                    class="form-control bg-dark text-light mb-3"
+                                    placeholder="Email address"
+                                    required
+                                    autofocus
+                                    v-model="emailReset"
+                                />
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-success btn-block"
+                                    @click.prevent="requestResetToken()"
+                                >
+                                    Send
+                                </button>
+                            </form>
                             <p
                                 class="mt-3 mb-3 text-muted"
                                 @click="
@@ -131,49 +131,54 @@
                         <h5 class="card-title mb-3">
                             <strong>Create an account</strong>
                         </h5>
-                        <label for="inputName" class="sr-only">Name</label>
-                        <input
-                            type="text"
-                            id="userName"
-                            class="form-control bg-dark text-light mb-2"
-                            placeholder="Name"
-                            required
-                            autofocus
-                            v-model="newUser.name"
-                        />
-                        <label for="inputEmail" class="sr-only">Email</label>
-                        <input
-                            type="text"
-                            id="email"
-                            class="form-control bg-dark text-light mb-2"
-                            placeholder="Email address"
-                            required
-                            v-model="newUser.email"
-                        />
-                        <label for="inputPassword" class="sr-only"
-                            >Password</label
-                        >
-                        <input
-                            type="password"
-                            id="password"
-                            class="form-control bg-dark text-light"
-                            placeholder="Password"
-                            required
-                            v-model="newUser.password"
-                        />
-                        <br />
-                        <button
-                            class="btn btn-outline-success btn-block"
-                            @click.prevent="createUser()"
-                        >
-                            Create user
-                        </button>
+                        <form>
+                            <label for="inputName" class="sr-only">Name</label>
+                            <input
+                                type="text"
+                                id="userName"
+                                class="form-control bg-dark text-light mb-2"
+                                placeholder="Name"
+                                required
+                                autofocus
+                                v-model="newUser.name"
+                            />
+                            <label for="inputEmail" class="sr-only"
+                                >Email</label
+                            >
+                            <input
+                                type="text"
+                                id="email"
+                                class="form-control bg-dark text-light mb-2"
+                                placeholder="Email address"
+                                required
+                                v-model="newUser.email"
+                            />
+                            <label for="inputPassword" class="sr-only"
+                                >Password</label
+                            >
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-control bg-dark text-light"
+                                placeholder="Password"
+                                required
+                                v-model="newUser.password"
+                            />
+                            <br />
+                            <button
+                                type="submit"
+                                class="btn btn-outline-success btn-block"
+                                @click.prevent="createUser()"
+                            >
+                                Create user
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="mt-3 card w-50 text-center">
+        <div class="__auth-card mt-3 card text-center">
             <h5 class="card-title mt-3 mb-3">
                 <strong>Social login</strong>
             </h5>
@@ -248,7 +253,6 @@ export default {
             this.$router.push('/');
         }
         if (this.verify) {
-            console.log('verifying user...');
             auth.verify(this.$route.params.id, this.$route.params.token);
         }
         // if (this.$route.params.id && this.$route.params.token) {
