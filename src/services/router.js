@@ -49,7 +49,7 @@ export const routes = [
 
     // Global routes
     {
-        path: '/',
+        path: '*',
         component: Home
     }
 ];
