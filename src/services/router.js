@@ -1,9 +1,8 @@
-import UserDetails from './../components/User/UserDetails.vue';
-import UserCreate from './../components/User/UserCreate.vue';
-import UserList from './../components/User/UserList.vue';
-import UserPassword from './../components/User/UserPassword.vue';
-import Login from './../components/Login.vue';
-import Home from './../components/Home.vue';
+import Login from '@/components/Auth/Login.vue';
+import PasswordReset from '@/components/Auth/PasswordReset.vue';
+import UserDetails from '@/components/User/UserDetails.vue';
+import UserList from '@/components/User/UserList.vue';
+import Home from '@/components/Home.vue';
 
 export const routes = [
     // Authentication routes
@@ -24,6 +23,11 @@ export const routes = [
         props: { verify: true }
     },
 
+    {
+        path: '/reset-password/:id/:token',
+        component: PasswordReset
+    },
+
     // App routes
     {
         path: '/user',
@@ -35,11 +39,6 @@ export const routes = [
     {
         path: '/user/list',
         component: UserList
-    },
-
-    {
-        path: '/user/:id/password/:token',
-        component: UserPassword
     },
 
     {

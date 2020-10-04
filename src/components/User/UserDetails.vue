@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import { userClient } from './../../services/userClient.js';
-import { auth } from './../../services/auth.js';
+import { userClient } from '@/services/userClient.js';
+import { auth } from '@/services/auth.js';
 
 export default {
     data: function() {

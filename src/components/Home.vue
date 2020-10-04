@@ -6,14 +6,9 @@
 </template>
 
 <script>
-import { auth } from './../services/auth.js';
 export default {
     props: {
         user: {}
-    },
-
-    created() {
-        if (!this.user) this.$router.push('/login');
     }
 };
 </script>

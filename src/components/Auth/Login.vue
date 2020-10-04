@@ -204,8 +204,8 @@
 </template>
 
 <script>
-import { auth } from './../services/auth.js';
-import { userClient } from './../services/userClient.js';
+import { auth } from '@/services/auth.js';
+import { userClient } from '@/services/userClient.js';
 
 export default {
     data: function() {
@@ -252,16 +252,14 @@ export default {
             await auth.auth();
             this.$router.push('/');
         }
+
         if (this.verify) {
             auth.verify(this.$route.params.id, this.$route.params.token);
         }
-        // if (this.$route.params.id && this.$route.params.token) {
-        //     auth.verify(this.$route.params.id, this.$route.params.token);
-        // }
     }
 };
 </script>
 
 <style>
-@import './../assets/css/login.css';
+@import './../../assets/css/login.css';
 </style>

@@ -16,14 +16,12 @@
 </template>
 
 <script>
-import { eventBus } from './services/eventBus.js';
-import { auth } from './services/auth.js';
+import { eventBus } from '@/services/eventBus.js';
+import { auth } from '@/services/auth.js';
 
-import Header from './components/Header.vue';
-import Alerts from './components/Alerts.vue';
-import Login from './components/Login.vue';
-import Menu from './components/Menu.vue';
-import UserPassword from './components/User/UserPassword.vue';
+import Header from '@/components/Header.vue';
+import Alerts from '@/components/Alerts.vue';
+import Menu from '@/components/Menu.vue';
 
 export default {
     data: function() {
@@ -31,14 +29,20 @@ export default {
             user: {}
         };
     },
+
     components: {
         'app-header': Header,
         'app-alerts': Alerts,
         'app-menu': Menu
         // 'app-user-password': UserPassword
     },
+
     created() {
         this.user = auth.getUser();
+        if (!this.user && this.$route.path != '/login') {
+            console.log('redirecting...');
+            this.$router.push('/login');
+        }
         eventBus.$on('login', () => {
             this.user = auth.getUser();
         });

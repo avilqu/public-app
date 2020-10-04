@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { userClient } from './../../services/userClient.js';
+import { userClient } from '@/services/userClient.js';
 
 export default {
     data: function() {
