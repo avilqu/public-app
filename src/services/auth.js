@@ -10,20 +10,24 @@ export const auth = new Vue({
                 if (res.data.status === 'success') {
                     localStorage.setItem('user', JSON.stringify(res.data.data));
                     eventBus.login(res.data.data.user);
-                    return res.data;
                 } else eventBus.alert('danger', res.data.message);
+                return res.data;
             } catch (e) {
                 return e;
             }
         },
 
         async auth() {
-            const res = await axios.get('/api/user/profile');
-            if (res.data.status === 'success') {
-                localStorage.setItem('user', JSON.stringify(res.data.data));
-                eventBus.login(res.data.data.user);
+            try {
+                const res = await axios.get('/api/user/profile');
+                if (res.data.status === 'success') {
+                    localStorage.setItem('user', JSON.stringify(res.data.data));
+                    eventBus.login(res.data.data.user);
+                } else eventBus.alert('danger', res.data.message);
                 return res.data;
-            } else eventBus.alert('danger', res.data.message);
+            } catch (e) {
+                return e;
+            }
         },
 
         async verify(id, token) {

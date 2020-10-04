@@ -41,8 +41,8 @@ export const userClient = new Vue({
                 );
                 if (res.data.status === 'success') {
                     eventBus.alert('success', res.data.message);
-                    return res.data;
                 } else eventBus.alert('danger', res.data.message);
+                return res.data;
             } catch (e) {
                 return e;
             }
@@ -55,8 +55,8 @@ export const userClient = new Vue({
                 );
                 if (res.data.status === 'success') {
                     eventBus.alert('success', res.data.message);
-                    return res.data;
                 } else eventBus.alert('danger', res.data.message);
+                return res.data;
             } catch (e) {
                 return e;
             }
@@ -68,8 +68,8 @@ export const userClient = new Vue({
                 );
                 if (res.data.status === 'success') {
                     eventBus.alert('success', res.data.message);
-                    return res.data;
                 } else eventBus.alert('danger', res.data.message);
+                return res.data;
             } catch (e) {
                 return e;
             }
