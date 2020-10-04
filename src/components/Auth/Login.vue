@@ -250,7 +250,7 @@ export default {
     async created() {
         if (this.auth) {
             await auth.auth();
-            this.$router.push('/');
+            this.$router.push('/').catch(() => {});
         }
 
         if (this.verify) {

@@ -42,7 +42,8 @@ export default {
         if (
             !this.user &&
             !this.$route.params.id &&
-            this.$route.path != '/login'
+            this.$route.path != '/login' &&
+            this.$route.path != '/auth'
         ) {
             this.$router.push('/login');
         }
