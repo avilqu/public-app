@@ -54,7 +54,9 @@
                                     id="inputEmail"
                                     class="form-control bg-dark text-light mb-2"
                                     placeholder="Email address"
-                                    required
+                                    :class="{
+                                        __invalid: !validation.login.email
+                                    }"
                                     autofocus
                                     v-model="credentials.email"
                                 />
@@ -66,7 +68,9 @@
                                     id="inputPassword"
                                     class="form-control bg-dark text-light"
                                     placeholder="Password"
-                                    required
+                                    :class="{
+                                        __invalid: !validation.login.password
+                                    }"
                                     v-model="credentials.password"
                                 />
                                 <p
@@ -101,8 +105,11 @@
                                     type="email"
                                     id="emailReset"
                                     class="form-control bg-dark text-light mb-3"
+                                    :class="{
+                                        __invalid: !validation.passwordReset
+                                            .email
+                                    }"
                                     placeholder="Email address"
-                                    required
                                     autofocus
                                     v-model="emailReset"
                                 />
@@ -137,8 +144,10 @@
                                 type="text"
                                 id="userName"
                                 class="form-control bg-dark text-light mb-2"
+                                :class="{
+                                    __invalid: !validation.register.name
+                                }"
                                 placeholder="Name"
-                                required
                                 autofocus
                                 v-model="newUser.name"
                             />
@@ -149,20 +158,37 @@
                                 type="text"
                                 id="email"
                                 class="form-control bg-dark text-light mb-2"
+                                :class="{
+                                    __invalid: !validation.register.email
+                                }"
                                 placeholder="Email address"
-                                required
                                 v-model="newUser.email"
+                            />
+                            <label for="inputPassword" class="sr-only"
+                                >Confirm password</label
+                            >
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-control bg-dark text-light mb-2"
+                                :class="{
+                                    __invalid: !validation.register.password
+                                }"
+                                placeholder="Password"
+                                v-model="newUser.password"
                             />
                             <label for="inputPassword" class="sr-only"
                                 >Password</label
                             >
                             <input
                                 type="password"
-                                id="password"
+                                id="confirmation"
                                 class="form-control bg-dark text-light"
-                                placeholder="Password"
-                                required
-                                v-model="newUser.password"
+                                :class="{
+                                    __invalid: !validation.register.confirmation
+                                }"
+                                placeholder="Confirm password"
+                                v-model="newUser.confirmation"
                             />
                             <br />
                             <button
@@ -213,7 +239,22 @@ export default {
             credentials: {},
             newUser: {},
             showResetForm: false,
-            emailReset: ''
+            emailReset: '',
+            validation: {
+                login: {
+                    email: true,
+                    password: true
+                },
+                passwordReset: {
+                    email: true
+                },
+                register: {
+                    name: true,
+                    email: true,
+                    password: true,
+                    confirmation: true
+                }
+            }
         };
     },
 
@@ -223,13 +264,60 @@ export default {
     },
 
     methods: {
-        async login() {
-            const data = await auth.login(this.credentials);
-            if (data.status === 'success') this.$router.push('/');
+        loginValidation() {
+            let status = true;
+            this.validation.passwordReset.email = true;
+            if (!this.credentials.email) {
+                status = false;
+                this.validation.login.email = false;
+            }
+            if (!this.credentials.password) {
+                status = false;
+                this.validation.login.password = false;
+            }
+            return status;
         },
 
-        async createUser() {
-            await auth.createUser(this.newUser);
+        passwordResetValidation() {
+            let status = true;
+            this.validation.passwordReset.email = true;
+            if (!this.emailReset) {
+                status = false;
+                this.validation.passwordReset.email = false;
+            }
+            return status;
+        },
+
+        registerValidation() {
+            let status = true;
+            this.validation.register.name = true;
+            this.validation.register.email = true;
+            this.validation.register.password = true;
+            this.validation.register.confirmation = true;
+            if (!this.newUser.name) {
+                status = false;
+                this.validation.register.name = false;
+            }
+            if (!this.newUser.email) {
+                status = false;
+                this.validation.register.email = false;
+            }
+            if (this.newUser.password.length < 6) {
+                status = false;
+                this.validation.register.password = false;
+            }
+            if (this.newUser.password !== this.newUser.confirmation) {
+                status = false;
+                this.validation.register.confirmation = false;
+            }
+            return status;
+        },
+
+        async login() {
+            if (this.loginValidation()) {
+                const data = await auth.login(this.credentials);
+                if (data.status === 'success') this.$router.push('/');
+            }
         },
 
         async googleLogin() {
@@ -240,10 +328,18 @@ export default {
             window.location.href = '/api/login/facebook';
         },
 
+        async createUser() {
+            if (this.registerValidation()) {
+                await auth.createUser(this.newUser);
+            }
+        },
+
         async requestResetToken() {
-            await auth.requestResetToken({
-                email: this.emailReset
-            });
+            if (this.passwordResetValidation()) {
+                await auth.requestResetToken({
+                    email: this.emailReset
+                });
+            }
         }
     },
 

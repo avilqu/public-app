@@ -73,14 +73,7 @@ export const auth = new Vue({
             }
         },
 
-        async updatePassword(id, token, password, confirmation) {
-            if (password !== confirmation) {
-                return eventBus.alert('danger', "Passwords don't match.");
-            }
-            if (password.length < 6) {
-                return eventBus.alert('danger', 'Password too short.');
-            }
-
+        async updatePassword(id, token, password) {
             try {
                 const res = await axios.post(
                     '/api/user/' + id + '/password/' + token,

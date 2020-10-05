@@ -14,18 +14,24 @@
                         type="password"
                         id="inputPassword"
                         class="form-control bg-dark text-light mb-2"
+                        :class="{
+                            __invalid: !validation.password
+                        }"
                         placeholder="New password"
-                        required
                         autofocus
                         v-model="password"
                     />
-                    <label for="inputPassword" class="sr-only">Password</label>
+                    <label for="inputPassword" class="sr-only"
+                        >Confirm password</label
+                    >
                     <input
                         type="password"
                         id="inputPasswordConfirmation"
                         class="form-control bg-dark text-light"
-                        placeholder="Password confirmation"
-                        required
+                        :class="{
+                            __invalid: !validation.confirmation
+                        }"
+                        placeholder="Confirm password"
                         v-model="confirmation"
                     />
                     <br />
@@ -49,23 +55,44 @@ export default {
     data: function() {
         return {
             password: '',
-            confirmation: ''
+            confirmation: '',
+            validation: {
+                password: true,
+                confirmation: true
+            }
         };
     },
     props: {
         user: {}
     },
     methods: {
+        passwordValidation() {
+            let status = true;
+            this.validation.password = true;
+            this.validation.confirmation = true;
+            if (this.password.length < 6) {
+                status = false;
+                this.validation.password = false;
+            }
+            if (this.password !== this.confirmation) {
+                status = false;
+                this.validation.confirmation = false;
+            }
+            return status;
+        },
+
         async updatePassword() {
-            if (
-                await auth.updatePassword(
+            if (this.passwordValidation()) {
+                const res = await auth.updatePassword(
                     this.$route.params.id,
                     this.$route.params.token,
                     this.password,
                     this.confirmation
-                )
-            ) {
-                this.$router.push('/login');
+                );
+                if (res) {
+                    if (this.user) this.$router.push('/');
+                    else this.$router.push('/login');
+                }
             }
         }
     }

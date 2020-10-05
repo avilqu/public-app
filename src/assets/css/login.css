@@ -8,3 +8,7 @@
     margin: 0 auto;
     width: 450px;
 }
+
+.__invalid {
+    border: 1px solid #71180e !important;
+}
