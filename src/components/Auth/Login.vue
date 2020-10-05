@@ -302,7 +302,7 @@ export default {
                 status = false;
                 this.validation.register.email = false;
             }
-            if (this.newUser.password.length < 6) {
+            if (this.newUser.password && this.newUser.password.length < 6) {
                 status = false;
                 this.validation.register.password = false;
             }
