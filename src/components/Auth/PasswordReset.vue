@@ -19,7 +19,7 @@
                         }"
                         placeholder="New password"
                         autofocus
-                        v-model="password"
+                        v-model="formData.password"
                     />
                     <label for="inputPassword" class="sr-only"
                         >Confirm password</label
@@ -32,7 +32,7 @@
                             __invalid: !validation.confirmation
                         }"
                         placeholder="Confirm password"
-                        v-model="confirmation"
+                        v-model="formData.confirmation"
                     />
                     <br />
                     <button
@@ -54,27 +54,31 @@ import { auth } from '@/services/auth.js';
 export default {
     data: function() {
         return {
-            password: '',
-            confirmation: '',
+            formData: {
+                password: '',
+                confirmation: ''
+            },
             validation: {
                 password: true,
                 confirmation: true
             }
         };
     },
+
     props: {
         user: {}
     },
+
     methods: {
         passwordValidation() {
             let status = true;
             this.validation.password = true;
             this.validation.confirmation = true;
-            if (this.password.length < 6) {
+            if (this.formData.password.length < 6) {
                 status = false;
                 this.validation.password = false;
             }
-            if (this.password !== this.confirmation) {
+            if (this.formData.password !== this.formData.confirmation) {
                 status = false;
                 this.validation.confirmation = false;
             }
@@ -86,8 +90,7 @@ export default {
                 const res = await auth.updatePassword(
                     this.$route.params.id,
                     this.$route.params.token,
-                    this.password,
-                    this.confirmation
+                    this.formData.password
                 );
                 if (res) {
                     if (this.user) this.$router.push('/');

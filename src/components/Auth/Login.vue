@@ -58,7 +58,7 @@
                                         __invalid: !validation.login.email
                                     }"
                                     autofocus
-                                    v-model="credentials.email"
+                                    v-model="formData.login.email"
                                 />
                                 <label for="inputPassword" class="sr-only"
                                     >Password</label
@@ -71,7 +71,7 @@
                                     :class="{
                                         __invalid: !validation.login.password
                                     }"
-                                    v-model="credentials.password"
+                                    v-model="formData.login.password"
                                 />
                                 <p
                                     class="mt-2 mb-2 text-muted text-right small"
@@ -111,7 +111,7 @@
                                     }"
                                     placeholder="Email address"
                                     autofocus
-                                    v-model="emailReset"
+                                    v-model="formData.passwordReset.email"
                                 />
                                 <button
                                     type="submit"
@@ -149,7 +149,7 @@
                                 }"
                                 placeholder="Name"
                                 autofocus
-                                v-model="newUser.name"
+                                v-model="formData.register.name"
                             />
                             <label for="inputEmail" class="sr-only"
                                 >Email</label
@@ -162,7 +162,7 @@
                                     __invalid: !validation.register.email
                                 }"
                                 placeholder="Email address"
-                                v-model="newUser.email"
+                                v-model="formData.register.email"
                             />
                             <label for="inputPassword" class="sr-only"
                                 >Confirm password</label
@@ -175,7 +175,7 @@
                                     __invalid: !validation.register.password
                                 }"
                                 placeholder="Password"
-                                v-model="newUser.password"
+                                v-model="formData.register.password"
                             />
                             <label for="inputPassword" class="sr-only"
                                 >Password</label
@@ -188,7 +188,7 @@
                                     __invalid: !validation.register.confirmation
                                 }"
                                 placeholder="Confirm password"
-                                v-model="newUser.confirmation"
+                                v-model="formData.register.confirmation"
                             />
                             <br />
                             <button
@@ -214,13 +214,13 @@
             <div class="card-body">
                 <button
                     class="btn btn-danger btn-block"
-                    @click.prevent="googleLogin()"
+                    @click.prevent="oAuthLogin('google')"
                 >
                     Sign in with Google
                 </button>
                 <button
                     class="btn btn-primary btn-block"
-                    @click.prevent="facebookLogin()"
+                    @click.prevent="oAuthLogin('facebook')"
                 >
                     Sign in with Facebook
                 </button>
@@ -231,15 +231,25 @@
 
 <script>
 import { auth } from '@/services/auth.js';
-import { apiClient } from '@/services/apiClient.js';
 
 export default {
     data: function() {
         return {
-            credentials: {},
-            newUser: {},
-            showResetForm: false,
-            emailReset: '',
+            formData: {
+                login: {
+                    email: '',
+                    password: ''
+                },
+                passwordReset: {
+                    email: ''
+                },
+                register: {
+                    name: '',
+                    email: '',
+                    password: '',
+                    confirmation: ''
+                }
+            },
             validation: {
                 login: {
                     email: true,
@@ -254,7 +264,8 @@ export default {
                     password: true,
                     confirmation: true
                 }
-            }
+            },
+            showResetForm: false
         };
     },
 
@@ -267,11 +278,11 @@ export default {
         loginValidation() {
             let status = true;
             this.validation.passwordReset.email = true;
-            if (!this.credentials.email) {
+            if (!this.formData.login.email) {
                 status = false;
                 this.validation.login.email = false;
             }
-            if (!this.credentials.password) {
+            if (!this.formData.login.password) {
                 status = false;
                 this.validation.login.password = false;
             }
@@ -281,7 +292,7 @@ export default {
         passwordResetValidation() {
             let status = true;
             this.validation.passwordReset.email = true;
-            if (!this.emailReset) {
+            if (!this.formData.passwordReset.email) {
                 status = false;
                 this.validation.passwordReset.email = false;
             }
@@ -294,19 +305,25 @@ export default {
             this.validation.register.email = true;
             this.validation.register.password = true;
             this.validation.register.confirmation = true;
-            if (!this.newUser.name) {
+            if (!this.formData.register.name) {
                 status = false;
                 this.validation.register.name = false;
             }
-            if (!this.newUser.email) {
+            if (!this.formData.register.email) {
                 status = false;
                 this.validation.register.email = false;
             }
-            if (this.newUser.password && this.newUser.password.length < 6) {
+            if (
+                this.formData.register.password &&
+                this.formData.register.password.length < 6
+            ) {
                 status = false;
                 this.validation.register.password = false;
             }
-            if (this.newUser.password !== this.newUser.confirmation) {
+            if (
+                this.formData.register.password !==
+                this.formData.register.confirmation
+            ) {
                 status = false;
                 this.validation.register.confirmation = false;
             }
@@ -315,29 +332,25 @@ export default {
 
         async login() {
             if (this.loginValidation()) {
-                const data = await auth.login(this.credentials);
+                const data = await auth.login(this.formData.login);
                 if (data.status === 'success') this.$router.push('/');
             }
         },
 
-        async googleLogin() {
-            window.location.href = '/api/login/google';
-        },
-
-        async facebookLogin() {
-            window.location.href = '/api/login/facebook';
+        oAuthLogin(strategy) {
+            window.location.href = `/api/login/${strategy}`;
         },
 
         async createUser() {
             if (this.registerValidation()) {
-                await auth.createUser(this.newUser);
+                await auth.createUser(this.formData.register);
             }
         },
 
         async requestResetToken() {
             if (this.passwordResetValidation()) {
                 await auth.requestResetToken({
-                    email: this.emailReset
+                    email: this.formData.passwordReset.email
                 });
             }
         }
