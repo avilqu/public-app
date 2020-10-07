@@ -39,7 +39,7 @@ export default {
     created() {
         eventBus.$on('alert', (alert) => {
             alert.id = this.alerts.length;
-            alert.class = 'alert-' + alert.model;
+            alert.class = `alert-${alert.model}`;
             this.alerts.push(alert);
         });
     }

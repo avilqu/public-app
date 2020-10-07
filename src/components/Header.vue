@@ -12,7 +12,6 @@
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
-                v-once
             >
                 {{ user.name }}
                 <img

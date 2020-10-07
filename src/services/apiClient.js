@@ -7,7 +7,7 @@ export const apiClient = new Vue({
         async updateUser(user) {
             try {
                 const res = await axios.post(
-                    '/api/user/' + user._id + '/update/',
+                    `/api/user/${user._id}/update`,
                     user
                 );
                 if (res.data.status === 'success') {
@@ -21,9 +21,7 @@ export const apiClient = new Vue({
 
         async deleteUser(user) {
             try {
-                const res = await axios.get(
-                    '/api/user/' + user._id + '/delete/'
-                );
+                const res = await axios.get(`/api/user/${user._id}/delete`);
                 if (res.data.status === 'success') {
                     eventBus.alert('success', res.data.message);
                 } else eventBus.alert('danger', res.data.message);
@@ -46,7 +44,7 @@ export const apiClient = new Vue({
 
         async getUser(id) {
             try {
-                const res = await axios.get('/api/user/' + id);
+                const res = await axios.get(`/api/user/${id}`);
                 if (res.data.status === 'success') {
                     return res.data.data.user;
                 } else eventBus.alert('danger', res.data.message);

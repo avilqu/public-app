@@ -40,9 +40,8 @@
                     v-for="user in filteredUsers"
                     :key="user._id"
                     :class="{ __unverified: !user.verified }"
-                    :to="'/user/' + user._id"
+                    :to="`/user/${user._id}`"
                 >
-                    <!-- :to="{ path:'/user/' + user._id }"-->
                     <td>{{ user.name }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.role }}</td>

@@ -16,21 +16,14 @@
 </template>
 
 <script>
-import { authClient } from '@/services/authClient.js';
-
 import Header from '@/components/Header.vue';
 import Alerts from '@/components/Alerts.vue';
 import Menu from '@/components/Menu.vue';
 
 export default {
     computed: {
-        user: {
-            get() {
-                return this.$store.state.auth.user;
-            },
-            set(user) {
-                return user;
-            }
+        user() {
+            return this.$store.state.auth.user;
         }
     },
 
@@ -38,18 +31,6 @@ export default {
         'app-header': Header,
         'app-alerts': Alerts,
         'app-menu': Menu
-    },
-
-    created() {
-        this.user = authClient.getUser();
-        if (
-            !this.user &&
-            !this.$route.params.id &&
-            this.$route.path != '/login' &&
-            this.$route.path != '/auth'
-        ) {
-            this.$router.push('/login');
-        }
     }
 };
 </script>

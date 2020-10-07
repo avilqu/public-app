@@ -108,9 +108,6 @@ export default {
 
         async updateUser() {
             await apiClient.updateUser(this.selectedUser);
-            if (this.user._id === this.selectedUser._id) {
-                authClient.updateUser(this.selectedUser);
-            }
         },
 
         async deleteUser() {

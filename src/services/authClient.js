@@ -69,7 +69,7 @@ export const authClient = new Vue({
         async updatePassword(id, token, password) {
             try {
                 const res = await axios.post(
-                    '/api/user/' + id + '/password/' + token,
+                    `/api/user/${id}/password/${token}`,
                     { password }
                 );
                 if (res.data.status === 'success') {
@@ -78,20 +78,6 @@ export const authClient = new Vue({
                 return res.data;
             } catch (e) {
                 return e;
-            }
-        },
-
-        updateUser(user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        },
-
-        isLoggedIn() {
-            return !!JSON.parse(localStorage.getItem('user'));
-        },
-
-        getUser() {
-            if (this.isLoggedIn()) {
-                return JSON.parse(localStorage.getItem('user')).user;
             }
         }
     }
