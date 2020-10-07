@@ -1,6 +1,5 @@
 import { authClient } from '@/services/authClient.js';
 import { router } from '@/services/router.js';
-import { eventBus } from '@/services/eventBus.js';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
@@ -9,17 +8,19 @@ const initialState = user
 
 export const auth = {
     namespaced: true,
+
     state: initialState,
+
     actions: {
-        async login({ dispatch, commit }, credentials) {
+        async login({ commit }, credentials) {
             const res = await authClient.login(credentials);
             if (res.status === 'success') {
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 commit('loginSuccess', res.data.user);
                 router.push('/');
             } else {
-                eventBus.alert('danger', res.message);
-                commit('loginFailure', res.message);
+                commit('alert/error', res.message, { root: true });
+                commit('loginFailure');
             }
         },
 
@@ -30,8 +31,8 @@ export const auth = {
                 commit('loginSuccess', res.data.user);
                 router.push('/');
             } else {
-                eventBus.alert('danger', res.message);
-                commit('loginFailure', res.message);
+                commit('alert/error', res.message, { root: true });
+                commit('loginFailure');
                 router.push('/login');
             }
         },

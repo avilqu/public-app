@@ -1,4 +1,4 @@
-import { eventBus } from './eventBus.js';
+import { store } from '@/store/store.js';
 import axios from 'axios';
 import Vue from 'vue';
 
@@ -11,8 +11,8 @@ export const apiClient = new Vue({
                     user
                 );
                 if (res.data.status === 'success') {
-                    eventBus.alert('success', res.data.message);
-                } else eventBus.alert('danger', res.data.message);
+                    store.commit('alert/success', res.data.message);
+                } else store.commit('alert/error', res.data.message);
                 return res.data;
             } catch (e) {
                 return e;
@@ -23,8 +23,8 @@ export const apiClient = new Vue({
             try {
                 const res = await axios.get(`/api/user/${user._id}/delete`);
                 if (res.data.status === 'success') {
-                    eventBus.alert('success', res.data.message);
-                } else eventBus.alert('danger', res.data.message);
+                    store.commit('alert/success', res.data.message);
+                } else store.commit('alert/error', res.data.message);
                 return res.data;
             } catch (e) {
                 return e;
@@ -36,7 +36,7 @@ export const apiClient = new Vue({
                 const res = await axios.get('/api/user/list');
                 if (res.data.status === 'success') {
                     return res.data.data.users;
-                } else eventBus.alert('danger', res.data.message);
+                } else store.commit('alert/error', res.data.message);
             } catch (e) {
                 return e;
             }
@@ -47,7 +47,7 @@ export const apiClient = new Vue({
                 const res = await axios.get(`/api/user/${id}`);
                 if (res.data.status === 'success') {
                     return res.data.data.user;
-                } else eventBus.alert('danger', res.data.message);
+                } else store.commit('alert/error', res.data.message);
             } catch (e) {
                 return e;
             }

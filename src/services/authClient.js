@@ -1,4 +1,4 @@
-import { eventBus } from './eventBus.js';
+import { store } from '@/store/store.js';
 import axios from 'axios';
 import Vue from 'vue';
 
@@ -22,17 +22,6 @@ export const authClient = new Vue({
             }
         },
 
-        async verify(id, token) {
-            try {
-                const res = await axios.get(`/api/user/${id}/verify/${token}`);
-                if (res.data.status === 'success') {
-                    eventBus.alert('success', res.data.message);
-                } else eventBus.alert('danger', res.data.message);
-            } catch (e) {
-                return e;
-            }
-        },
-
         async logout() {
             try {
                 const res = await axios.get('/api/logout');
@@ -42,12 +31,23 @@ export const authClient = new Vue({
             }
         },
 
+        async verify(id, token) {
+            try {
+                const res = await axios.get(`/api/user/${id}/verify/${token}`);
+                if (res.data.status === 'success') {
+                    store.commit('alert/success', res.data.message);
+                } else store.commit('alert/error', res.data.message);
+            } catch (e) {
+                return e;
+            }
+        },
+
         async createUser(user) {
             try {
                 const res = await axios.post('/api/user/signup', user);
                 if (res.data.status === 'success') {
-                    eventBus.alert('success', res.data.message);
-                } else eventBus.alert('danger', res.data.message);
+                    store.commit('alert/success', res.data.message);
+                } else store.commit('alert/error', res.data.message);
                 return res.data;
             } catch (e) {
                 return e;
@@ -58,9 +58,9 @@ export const authClient = new Vue({
             try {
                 const res = await axios.post('/api/user/reset-password', email);
                 if (res.data.status === 'success') {
-                    eventBus.alert('success', res.data.message);
+                    store.commit('alert/success', res.data.message);
                     return res.data;
-                } else eventBus.alert('danger', res.data.message);
+                } else store.commit('alert/error', res.data.message);
             } catch (e) {
                 return e;
             }
@@ -73,8 +73,8 @@ export const authClient = new Vue({
                     { password }
                 );
                 if (res.data.status === 'success') {
-                    eventBus.alert('success', res.data.message);
-                } else eventBus.alert('danger', res.data.message);
+                    store.commit('alert/success', res.data.message);
+                } else store.commit('alert/error', res.data.message);
                 return res.data;
             } catch (e) {
                 return e;
