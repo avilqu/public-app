@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import { auth } from '@/services/auth.js';
+import { authClient } from '@/services/authClient.js';
 
 export default {
     data: function() {
@@ -63,10 +63,6 @@ export default {
                 confirmation: true
             }
         };
-    },
-
-    props: {
-        user: {}
     },
 
     methods: {
@@ -87,7 +83,7 @@ export default {
 
         async updatePassword() {
             if (this.passwordValidation()) {
-                const res = await auth.updatePassword(
+                const res = await authClient.updatePassword(
                     this.$route.params.id,
                     this.$route.params.token,
                     this.formData.password

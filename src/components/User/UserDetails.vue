@@ -84,7 +84,7 @@
 
 <script>
 import { apiClient } from '@/services/apiClient.js';
-import { auth } from '@/services/auth.js';
+import { authClient } from '@/services/authClient.js';
 
 export default {
     data: function() {
@@ -92,34 +92,38 @@ export default {
             selectedUser: {}
         };
     },
-    props: {
-        user: {}
+
+    computed: {
+        user() {
+            return this.$store.state.auth.user;
+        }
     },
+
     methods: {
         async requestResetToken() {
-            await auth.requestResetToken({
+            await authClient.requestResetToken({
                 email: this.selectedUser.email
             });
         },
+
         async updateUser() {
             await apiClient.updateUser(this.selectedUser);
             if (this.user._id === this.selectedUser._id) {
-                auth.updateUser(this.selectedUser);
+                authClient.updateUser(this.selectedUser);
             }
         },
+
         async deleteUser() {
             if (await apiClient.deleteUser(this.selectedUser)) {
                 this.selectedUser = {};
             }
         }
     },
+
     async created() {
         if (this.$route.params.id) {
             this.selectedUser = await apiClient.getUser(this.$route.params.id);
-        }
-        // else if (this.$route.params.selectedUser)
-        //     this.selectedUser = this.$route.params.selectedUser;
-        else this.selectedUser = this.user;
+        } else this.selectedUser = this.user;
     }
 };
 </script>

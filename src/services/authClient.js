@@ -2,15 +2,11 @@ import { eventBus } from './eventBus.js';
 import axios from 'axios';
 import Vue from 'vue';
 
-export const auth = new Vue({
+export const authClient = new Vue({
     methods: {
         async login(credentials) {
             try {
                 const res = await axios.post('/api/login', credentials);
-                if (res.data.status === 'success') {
-                    localStorage.setItem('user', JSON.stringify(res.data.data));
-                    eventBus.login(res.data.data.user);
-                } else eventBus.alert('danger', res.data.message);
                 return res.data;
             } catch (e) {
                 return e;
@@ -20,10 +16,6 @@ export const auth = new Vue({
         async auth() {
             try {
                 const res = await axios.get('/api/user/profile');
-                if (res.data.status === 'success') {
-                    localStorage.setItem('user', JSON.stringify(res.data.data));
-                    eventBus.login(res.data.data.user);
-                } else eventBus.alert('danger', res.data.message);
                 return res.data;
             } catch (e) {
                 return e;
@@ -31,19 +23,20 @@ export const auth = new Vue({
         },
 
         async verify(id, token) {
-            const res = await axios.get(`/api/user/${id}/verify/${token}`);
-            if (res.data.status === 'success') {
-                eventBus.alert('success', res.data.message);
-            } else eventBus.alert('danger', res.data.message);
+            try {
+                const res = await axios.get(`/api/user/${id}/verify/${token}`);
+                if (res.data.status === 'success') {
+                    eventBus.alert('success', res.data.message);
+                } else eventBus.alert('danger', res.data.message);
+            } catch (e) {
+                return e;
+            }
         },
 
         async logout() {
             try {
                 const res = await axios.get('/api/logout');
-                if (res.data.status === 'success') {
-                    localStorage.removeItem('user');
-                    eventBus.logout();
-                }
+                return res.data;
             } catch (e) {
                 return e;
             }

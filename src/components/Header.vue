@@ -59,16 +59,18 @@
 </template>
 
 <script>
-import { auth } from '@/services/auth.js';
+import { authClient } from '@/services/authClient.js';
 
 export default {
-    props: {
-        user: {}
+    computed: {
+        user() {
+            return this.$store.state.auth.user;
+        }
     },
+
     methods: {
-        async logout() {
-            await auth.logout();
-            this.$router.push('/login');
+        logout() {
+            this.$store.dispatch('auth/logout');
         }
     }
 };

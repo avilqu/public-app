@@ -29,9 +29,13 @@ export default {
             alerts: []
         };
     },
-    props: {
-        user: {}
+
+    computed: {
+        user() {
+            return this.$store.state.auth.user;
+        }
     },
+
     created() {
         eventBus.$on('alert', (alert) => {
             alert.id = this.alerts.length;

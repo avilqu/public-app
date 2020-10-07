@@ -69,9 +69,13 @@ export default {
             }
         };
     },
-    props: {
-        user: {}
+
+    computed: {
+        user() {
+            return this.$store.state.auth.user;
+        }
     },
+
     methods: {
         filterList() {
             this.filteredUsers = this.users.filter((user) => {
@@ -79,6 +83,7 @@ export default {
                 else return user.role === Number(this.filters.role);
             });
         },
+
         sortBy(prop) {
             this.filteredUsers.sort((a, b) =>
                 a[prop] > b[prop] ? this.filters[prop] : -this.filters[prop]
@@ -86,6 +91,7 @@ export default {
             this.filters[prop] = -this.filters[prop];
         }
     },
+
     async created() {
         this.users = await apiClient.getUserList();
         this.filterList();

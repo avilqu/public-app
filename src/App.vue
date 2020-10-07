@@ -1,44 +1,47 @@
 <template>
     <div class="container-fluid">
         <div class="row" v-if="user" id="__main-row">
-            <app-header :user="user"></app-header>
-            <app-menu :user="user"></app-menu>
+            <app-header></app-header>
+            <app-menu></app-menu>
             <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 <app-alerts></app-alerts>
-                <router-view :user="user"></router-view>
+                <router-view></router-view>
             </main>
         </div>
         <div v-else>
             <app-alerts></app-alerts>
-            <router-view :user="user"></router-view>
+            <router-view></router-view>
         </div>
     </div>
 </template>
 
 <script>
-import { eventBus } from '@/services/eventBus.js';
-import { auth } from '@/services/auth.js';
+import { authClient } from '@/services/authClient.js';
 
 import Header from '@/components/Header.vue';
 import Alerts from '@/components/Alerts.vue';
 import Menu from '@/components/Menu.vue';
 
 export default {
-    data: function() {
-        return {
-            user: {}
-        };
+    computed: {
+        user: {
+            get() {
+                return this.$store.state.auth.user;
+            },
+            set(user) {
+                return user;
+            }
+        }
     },
 
     components: {
         'app-header': Header,
         'app-alerts': Alerts,
         'app-menu': Menu
-        // 'app-user-password': UserPassword
     },
 
     created() {
-        this.user = auth.getUser();
+        this.user = authClient.getUser();
         if (
             !this.user &&
             !this.$route.params.id &&
@@ -47,12 +50,6 @@ export default {
         ) {
             this.$router.push('/login');
         }
-        eventBus.$on('login', () => {
-            this.user = auth.getUser();
-        });
-        eventBus.$on('logout', () => {
-            this.user = auth.getUser();
-        });
     }
 };
 </script>

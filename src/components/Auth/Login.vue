@@ -230,7 +230,7 @@
 </template>
 
 <script>
-import { auth } from '@/services/auth.js';
+import { authClient } from '@/services/authClient.js';
 
 export default {
     data: function() {
@@ -330,10 +330,12 @@ export default {
             return status;
         },
 
-        async login() {
+        login() {
             if (this.loginValidation()) {
-                const data = await auth.login(this.formData.login);
-                if (data.status === 'success') this.$router.push('/');
+                this.$store.dispatch('auth/login', {
+                    email: this.formData.login.email,
+                    password: this.formData.login.password
+                });
             }
         },
 
@@ -343,13 +345,13 @@ export default {
 
         async createUser() {
             if (this.registerValidation()) {
-                await auth.createUser(this.formData.register);
+                await authClient.createUser(this.formData.register);
             }
         },
 
         async requestResetToken() {
             if (this.passwordResetValidation()) {
-                await auth.requestResetToken({
+                await authClient.requestResetToken({
                     email: this.formData.passwordReset.email
                 });
             }
@@ -358,12 +360,14 @@ export default {
 
     async created() {
         if (this.auth) {
-            await auth.auth();
-            this.$router.push('/').catch(() => {});
+            this.$store.dispatch('auth/auth');
         }
 
         if (this.verify) {
-            await auth.verify(this.$route.params.id, this.$route.params.token);
+            await authClient.verify(
+                this.$route.params.id,
+                this.$route.params.token
+            );
         }
     }
 };
