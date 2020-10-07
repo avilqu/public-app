@@ -26,3 +26,7 @@ main {
     color: #00bc8c;
     cursor: pointer;
 }
+
+.__secondary {
+    color: #666 !important;
+}

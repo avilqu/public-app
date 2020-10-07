@@ -31,11 +31,6 @@ export default {
 };
 </script>
 
-<style>
-._alert {
-    color: red;
-    position: fixed;
-    width: 100%;
-    z-index: 1;
-}
+<style scoped>
+@import './../assets/css/alert.css';
 </style>
