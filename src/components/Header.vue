@@ -4,7 +4,7 @@
             <img class="mb-4" src="./../assets/img/logo.png" />
         </router-link>
 
-        <div v-if="user" class="dropdown ml-auto">
+        <div class="dropdown ml-auto">
             <div
                 class="btn dropdown-toggle"
                 type="button"
@@ -36,30 +36,10 @@
                 </a>
             </div>
         </div>
-        <div v-else>
-            <router-link
-                tag="button"
-                :to="'/login'"
-                type="button"
-                class="btn btn-outline-success"
-            >
-                Log in
-            </router-link>
-            <router-link
-                tag="button"
-                :to="'/user/create'"
-                style="margin-left: 0.5em;"
-                class="btn btn-outline-danger"
-            >
-                Sign up
-            </router-link>
-        </div>
     </nav>
 </template>
 
 <script>
-import { authClient } from '@/services/authClient.js';
-
 export default {
     computed: {
         user() {

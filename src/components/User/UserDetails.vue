@@ -1,9 +1,9 @@
 <template>
-    <div class="col-sm-12" v-if="selectedUser.name">
+    <div class="col-sm-12" v-if="user">
         <h2>
             <img
-                v-if="selectedUser.pic"
-                :src="selectedUser.pic"
+                v-if="user.pic"
+                :src="user.pic"
                 class="__profilePicLarge"
                 alt="Profile"
             />
@@ -13,7 +13,7 @@
                 src="./../../assets/img/default-user-pic.png"
                 alt="Profile"
             />
-            {{ selectedUser.name }}
+            {{ user.name }}
         </h2>
         <br />
 
@@ -25,8 +25,7 @@
                         <input
                             type="text"
                             class="form-control form-control-sm bg-dark text-light"
-                            :disabled="user.role < 4"
-                            v-model="selectedUser.name"
+                            v-model="name"
                         />
                     </td>
                 </tr>
@@ -36,8 +35,7 @@
                         <input
                             type="text"
                             class="form-control form-control-sm bg-dark text-light"
-                            :disabled="user.role < 4"
-                            v-model="selectedUser.email"
+                            v-model="email"
                         />
                     </td>
                 </tr>
@@ -45,17 +43,14 @@
                     <td><strong>Account created on</strong></td>
                     <td class="text-light">
                         {{
-                            new Date(selectedUser.added).toLocaleDateString(
-                                'en-NZ',
-                                {
-                                    weekday: 'long',
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric',
-                                    hour: 'numeric',
-                                    minute: 'numeric'
-                                }
-                            )
+                            new Date(user.added).toLocaleDateString('en-NZ', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric',
+                                hour: 'numeric',
+                                minute: 'numeric'
+                            })
                         }}
                     </td>
                 </tr>
@@ -87,40 +82,58 @@ import { apiClient } from '@/services/apiClient.js';
 import { authClient } from '@/services/authClient.js';
 
 export default {
-    data: function() {
-        return {
-            selectedUser: {}
-        };
-    },
-
     computed: {
         user() {
-            return this.$store.state.auth.user;
+            return this.$store.state.user.user;
+        },
+
+        name: {
+            get() {
+                return this.$store.state.user.user.name;
+            },
+            set(name) {
+                this.$store.commit('user/update', {
+                    key: 'name',
+                    name
+                });
+            }
+        },
+
+        email: {
+            get() {
+                return this.$store.state.user.user.email;
+            },
+            set(email) {
+                this.$store.commit('user/update', {
+                    key: 'email',
+                    email
+                });
+            }
         }
     },
 
     methods: {
         async requestResetToken() {
             await authClient.requestResetToken({
-                email: this.selectedUser.email
+                email: this.user.email
             });
         },
 
         async updateUser() {
-            await apiClient.updateUser(this.selectedUser);
+            await apiClient.updateUser(this.user);
         },
 
         async deleteUser() {
-            if (await apiClient.deleteUser(this.selectedUser)) {
-                this.selectedUser = {};
+            if (await apiClient.deleteUser(this.user)) {
+                this.$store.commit('user/reset');
             }
         }
     },
 
-    async created() {
+    created() {
         if (this.$route.params.id) {
-            this.selectedUser = await apiClient.getUser(this.$route.params.id);
-        } else this.selectedUser = this.user;
+            this.$store.dispatch('user/loadUser', this.$route.params.id);
+        } else this.$store.dispatch('user/loadUser');
     }
 };
 </script>
