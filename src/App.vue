@@ -27,6 +27,12 @@ export default {
         }
     },
 
+    watch: {
+        $route() {
+            this.$store.commit('alert/reset');
+        }
+    },
+
     components: {
         'app-header': Header,
         'app-alerts': Alerts,

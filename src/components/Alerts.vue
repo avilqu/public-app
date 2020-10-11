@@ -11,6 +11,7 @@
             class="close"
             data-dismiss="alert"
             aria-label="Close"
+            @click="$store.commit('alert/reset')"
         >
             <span aria-hidden="true">&times;</span>
         </button>
@@ -20,10 +21,6 @@
 <script>
 export default {
     computed: {
-        user() {
-            return this.$store.state.auth.user;
-        },
-
         alert() {
             return this.$store.state.alert;
         }

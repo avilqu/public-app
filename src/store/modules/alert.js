@@ -17,7 +17,7 @@ export const alert = {
             state.message = message;
         },
 
-        clear(state) {
+        reset(state) {
             state.type = null;
             state.message = null;
         }
