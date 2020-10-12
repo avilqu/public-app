@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <div class="row" v-if="user" id="__main-row">
+        <div class="row" id="__main-row" v-if="user">
             <app-header></app-header>
             <app-menu></app-menu>
             <main class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -8,9 +8,12 @@
                 <router-view></router-view>
             </main>
         </div>
-        <div v-else>
-            <app-alerts></app-alerts>
-            <router-view></router-view>
+        <div id="__main-row" v-else>
+            <app-header></app-header>
+            <main>
+                <app-alerts></app-alerts>
+                <router-view></router-view>
+            </main>
         </div>
     </div>
 </template>

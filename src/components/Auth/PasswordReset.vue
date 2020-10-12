@@ -83,15 +83,11 @@ export default {
 
         async updatePassword() {
             if (this.passwordValidation()) {
-                const res = await authClient.updatePassword(
+                await authClient.updatePassword(
                     this.$route.params.id,
                     this.$route.params.token,
                     this.formData.password
                 );
-                if (res) {
-                    if (this.user) this.$router.push('/');
-                    else this.$router.push('/login');
-                }
             }
         }
     }

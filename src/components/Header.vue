@@ -4,7 +4,7 @@
             <img class="mb-4" src="./../assets/img/logo.png" />
         </router-link>
 
-        <div class="dropdown ml-auto">
+        <div v-if="user" class="dropdown ml-auto">
             <div
                 class="btn dropdown-toggle"
                 type="button"
